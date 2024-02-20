@@ -39,6 +39,12 @@ export default function DetailsPage() {
     return (
         <div>
             <h2>{post.title.rendered}</h2>
+            <p>Autore: {post._embedded.author['0'].name}</p>
+            <p>Categorie: {post._embedded['wp:term'][0].map(category => category.name).join(', ')}</p>
+            <p>Immagine in evidenza</p>
+            {post._embedded && post._embedded['wp:featuredmedia'] && post._embedded['wp:featuredmedia'][0] &&
+                <img src={post._embedded['wp:featuredmedia'][0].source_url} alt={post.slug} />
+            }
             <div dangerouslySetInnerHTML={{ __html: post.content.rendered }}></div>
         </div>
     );
