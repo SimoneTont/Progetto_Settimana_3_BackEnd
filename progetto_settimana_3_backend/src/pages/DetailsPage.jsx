@@ -1,15 +1,14 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
-export default function SearchPostById() {
+export default function DetailsPage() {
     const [post, setPost] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
 
     const postId = useParams();
-    console.log(postId)
+    //console.log(postId)
     useEffect(() => {
         setLoading(true);
         setError(null);

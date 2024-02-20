@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Row, Col } from 'react-bootstrap';
+
 export default function WPpages() {
   const [state, setState] = useState({
-    pages: []
+    pages: [],
+    search: ''
   });
 
   useEffect(() => {
@@ -13,17 +15,37 @@ export default function WPpages() {
           ...prevState,
           pages: res.data
         }));
-        //console.log(res.data);
       })
       .catch(error => {
         console.error('Error fetching pages:', error);
       });
   }, []);
+
+  const filteredPages = state.pages.filter(page =>
+    page.title.rendered.toLowerCase().includes(state.search.toLowerCase())
+  );
+
+  const handleSearchChange = event => {
+    setState(prevState => ({
+      ...prevState,
+      search: event.target.value
+    }));
+  };
+
   return (
     <>
       <h2 className='text-center'>Wordpress Pages</h2>
+      <div className="input-group mb-3">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search"
+          value={state.search}
+          onChange={handleSearchChange}
+        />
+      </div>
       <Row>
-        {state.pages.map(page => (
+        {filteredPages.map(page => (
           <Col key={page.id} xs={12} sm={6} md={4} lg={3}>
             <div className="card" style={{ width: "18rem" }}>
               <div className="card-body">
@@ -32,7 +54,8 @@ export default function WPpages() {
                 <a href={page.link} className="btn btn-primary">Go to page</a>
               </div>
             </div>
-          </Col>))}
+          </Col>
+        ))}
       </Row>
     </>
   )
