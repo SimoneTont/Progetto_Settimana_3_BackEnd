@@ -12,8 +12,9 @@ export default function DetailsPage() {
     useEffect(() => {
         setLoading(true);
         setError(null);
-        axios.get(`http://localhost/wordpress/wp-json/wp/v2/posts/${postId.id}`)
+        axios.get(`http://localhost/wordpress/wp-json/wp/v2/posts/${postId.id}?_embed`)
             .then(res => {
+                console.log(res.data);
                 setPost(res.data);
                 setLoading(false);
             })

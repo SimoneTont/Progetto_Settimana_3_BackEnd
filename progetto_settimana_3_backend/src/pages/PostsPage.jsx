@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 export default function PostsPage() {
@@ -11,7 +11,7 @@ export default function PostsPage() {
   });
 
   useEffect(() => {
-    axios.get(`http://localhost/wordpress/wp-json/wp/v2/posts`)
+    axios.get(`http://localhost/wordpress/wp-json/wp/v2/posts?_embed`)
       .then(res => {
         setState(prevState => ({
           ...prevState,
@@ -66,6 +66,9 @@ export default function PostsPage() {
           <Col key={post.id} xs={12} sm={6} md={4} lg={3}>
             <div className="card" style={{ width: "18rem" }}>
               <div className="card-body">
+              {/* {post._embedded['wp:term'] && post._embedded['wp:term'][0][0] && post._embedded['wp:term'][0][0].link &&
+                  <img src={post._embedded['wp:term'][0][0].link} className="card-img-top" alt={post.slug} />
+                } */} {/* Da rivedere */}
                 <h5 className="card-title">{post.title.rendered}</h5>
                 <div dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}></div>
                 <p>Post by {state.authors[post.author]}</p>
@@ -79,3 +82,4 @@ export default function PostsPage() {
     </>
   )
 }
+
